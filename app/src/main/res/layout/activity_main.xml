@@ -9,18 +9,20 @@
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:background="@color/tkpd_green_header"
-        android:padding="16dp">
+        android:layout_height="wrap_content"
+        android:background="@color/tkpd_green_header">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            app:layout_scrollFlags="scroll|enterAlways">
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:imeOptions="actionSearch"
+                app:layout_collapseMode="pin"
                 android:inputType="text"
                 android:padding="16dp"
                 android:background="@android:color/white"
