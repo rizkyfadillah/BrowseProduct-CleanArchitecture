@@ -1,0 +1,22 @@
+ext {
+    butterKnifeVersion = '8.7.0'
+    daggerVersion = '2.5'
+    retrofitVersion = '2.3.0'
+
+    butterKnifeDependencies = [
+            butterKnife        : "com.jakewharton:butterknife:${butterKnifeVersion}",
+            butterKnifeCompiler: "com.jakewharton:butterknife-compiler:${butterKnifeVersion}"
+    ]
+
+    daggerDependencies = [
+            dagger                : "com.google.dagger:dagger:${daggerVersion}",
+            daggerCompiler        : "com.google.dagger:dagger-compiler:${daggerVersion}",
+            daggerAndroidProcessor: "com.google.dagger:dagger-android-processor:${daggerVersion}"
+    ]
+
+    retrofitDependencies = [
+            retrofit      : "com.squareup.retrofit2:retrofit:${retrofitVersion}",
+            adapterRxJava2: "com.squareup.retrofit2:adapter-rxjava2:${retrofitVersion}",
+            converterGson : "com.squareup.retrofit2:converter-gson:${retrofitVersion}"
+    ]
+}

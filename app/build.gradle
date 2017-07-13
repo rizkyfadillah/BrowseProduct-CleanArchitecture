@@ -1,0 +1,52 @@
+apply plugin: 'com.android.application'
+apply plugin: 'me.tatarka.retrolambda'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "26.0.0"
+    defaultConfig {
+        applicationId "com.example.nakama.browseproduct_cleanarchitecture"
+        minSdkVersion 15
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support:design:25.3.1'
+
+    compile rootProject.ext.butterKnifeDependencies.butterKnife
+    annotationProcessor rootProject.ext.butterKnifeDependencies.butterKnifeCompiler
+
+    compile rootProject.ext.daggerDependencies.dagger
+    compile rootProject.ext.daggerDependencies.daggerCompiler
+
+    compile rootProject.ext.retrofitDependencies.retrofit
+    compile rootProject.ext.retrofitDependencies.adapterRxJava2
+    compile rootProject.ext.retrofitDependencies.converterGson
+
+    compile 'com.squareup.okhttp3:logging-interceptor:3.8.1'
+    compile 'com.squareup.okhttp3:okhttp:3.8.1'
+
+    compile 'com.squareup.picasso:picasso:2.5.2'
+
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+// Because RxAndroid releases are few and far between, it is recommended you also
+// explicitly depend on RxJava's latest version for bug fixes and new features.
+    compile 'io.reactivex.rxjava2:rxjava:2.1.0'
+
+    testCompile 'junit:junit:4.12'
+}
