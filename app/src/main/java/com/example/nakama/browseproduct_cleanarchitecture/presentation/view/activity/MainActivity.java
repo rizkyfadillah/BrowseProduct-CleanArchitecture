@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void injectDependencies() {
-        BrowseProductApplication.getComponent()
+        ((BrowseProductApplication) getApplication()).getComponent()
                 .plus(new MainActivityModule())
                 .inject(this);
     }

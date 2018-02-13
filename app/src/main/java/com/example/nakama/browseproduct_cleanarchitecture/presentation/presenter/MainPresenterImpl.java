@@ -56,22 +56,20 @@ public class MainPresenterImpl implements MainPresenter {
         getProductsUseCase.dispose();
     }
 
-    private class AceObserver extends DisposableObserver<Product> {
+    private class AceObserver extends DisposableObserver<List<Product>> {
         @Override
-        public void onNext(@NonNull Product product) {
-            Log.d(TAG, "onNext: " + product.getName() + ", " + product.getImage_url());
-            productModelList.add(productModelDataMapper.transform(product));
+        public void onNext(@NonNull List<Product> product) {
+            mainView.showProducts(productModelDataMapper.transform(product));
         }
 
         @Override
         public void onError(@NonNull Throwable e) {
-            Log.d(TAG, "onError: " + e.getMessage());
             mainView.showError(e.getMessage());
         }
 
         @Override
         public void onComplete() {
-            mainView.showProducts(productModelList);
+
         }
     }
 

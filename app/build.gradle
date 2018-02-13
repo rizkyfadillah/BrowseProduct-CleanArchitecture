@@ -2,15 +2,15 @@ apply plugin: 'com.android.application'
 apply plugin: 'me.tatarka.retrolambda'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "26.0.0"
+    compileSdkVersion 27
+    buildToolsVersion "26.0.3"
     defaultConfig {
         applicationId "com.example.nakama.browseproduct_cleanarchitecture"
         minSdkVersion 15
-        targetSdkVersion 25
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.example.nakama.browseproduct_cleanarchitecture.MockTestRunner"
     }
     buildTypes {
         release {
@@ -20,33 +20,41 @@ android {
     }
 }
 
-dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.android.support:design:25.3.1'
+final DAGGER_VERSION = '2.13'
+final RUNNER_VERSION = '1.0.1'
+final ESPRESSO_VERSION = '3.0.1'
 
-    compile rootProject.ext.butterKnifeDependencies.butterKnife
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation 'com.android.support:appcompat-v7:27.0.2'
+    implementation 'com.android.support:design:27.0.2'
+
+    implementation rootProject.ext.butterKnifeDependencies.butterKnife
     annotationProcessor rootProject.ext.butterKnifeDependencies.butterKnifeCompiler
 
-    compile rootProject.ext.daggerDependencies.dagger
-    compile rootProject.ext.daggerDependencies.daggerCompiler
+    implementation "com.google.dagger:dagger:${DAGGER_VERSION}"
+    annotationProcessor "com.google.dagger:dagger-compiler:${DAGGER_VERSION}"
 
-    compile rootProject.ext.retrofitDependencies.retrofit
-    compile rootProject.ext.retrofitDependencies.adapterRxJava2
-    compile rootProject.ext.retrofitDependencies.converterGson
+    implementation rootProject.ext.retrofitDependencies.retrofit
+    implementation rootProject.ext.retrofitDependencies.adapterRxJava2
+    implementation rootProject.ext.retrofitDependencies.converterGson
 
-    compile 'com.squareup.okhttp3:logging-interceptor:3.8.1'
-    compile 'com.squareup.okhttp3:okhttp:3.8.1'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.8.1'
+    implementation 'com.squareup.okhttp3:okhttp:3.8.1'
 
-    compile 'com.squareup.picasso:picasso:2.5.2'
+    implementation 'com.squareup.picasso:picasso:2.5.2'
 
-    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
-// Because RxAndroid releases are few and far between, it is recommended you also
-// explicitly depend on RxJava's latest version for bug fixes and new features.
-    compile 'io.reactivex.rxjava2:rxjava:2.1.0'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.7'
 
-    testCompile 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.mockito:mockito-android:2.12.0'
+
+    androidTestImplementation "com.android.support.test:runner:${RUNNER_VERSION}"
+    androidTestImplementation "com.android.support.test:rules:${RUNNER_VERSION}"
+    androidTestImplementation "com.android.support.test.espresso:espresso-core:${ESPRESSO_VERSION}"
+    androidTestImplementation "com.android.support.test.espresso:espresso-intents:${ESPRESSO_VERSION}"
+    androidTestImplementation 'org.mockito:mockito-android:2.12.0'
+    androidTestAnnotationProcessor "com.google.dagger:dagger-compiler:${DAGGER_VERSION}"
 }

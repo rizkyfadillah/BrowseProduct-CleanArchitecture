@@ -1,8 +1,8 @@
 package com.example.nakama.browseproduct_cleanarchitecture.domain.interactor;
 
-import com.google.common.base.Preconditions;
-
+import dagger.internal.Preconditions;
 import io.reactivex.Observable;
+import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -17,8 +17,13 @@ public abstract class UseCase<T, Params> {
 
     private final CompositeDisposable disposables;
 
-    UseCase() {
+    private Scheduler subscribeScheduler;
+    private Scheduler observeScheduler;
+
+    UseCase(Scheduler subscribeScheduler, Scheduler observeScheduler) {
         this.disposables = new CompositeDisposable();
+        this.subscribeScheduler = subscribeScheduler;
+        this.observeScheduler = observeScheduler;
     }
 
     /**
@@ -36,8 +41,8 @@ public abstract class UseCase<T, Params> {
     public void execute(DisposableObserver<T> observer, Params params) {
         Preconditions.checkNotNull(observer);
         final Observable<T> observable = this.buildUseCaseObservable(params)
-                .subscribeOn(Schedulers.computation())
-                .observeOn(AndroidSchedulers.mainThread());
+                .subscribeOn(subscribeScheduler)
+                .observeOn(observeScheduler);
         addDisposable(observable.subscribeWith(observer));
     }
 

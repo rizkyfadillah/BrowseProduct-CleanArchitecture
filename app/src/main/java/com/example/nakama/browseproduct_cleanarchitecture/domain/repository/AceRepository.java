@@ -7,6 +7,8 @@ import com.example.nakama.browseproduct_cleanarchitecture.data.api.AceService;
 import com.example.nakama.browseproduct_cleanarchitecture.data.entity.BaseApiResponse;
 import com.example.nakama.browseproduct_cleanarchitecture.data.entity.ProductResponse;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
@@ -27,23 +29,17 @@ public class AceRepository {
         this.productEntityDataMapper = productEntityDataMapper;
     }
 
-    public Observable<Product> getProducts(
+    public Observable<List<Product>> getProducts(
             String device,
             String source,
             String q,
             int rows,
             int start) {
         return aceService.getAce(device, source, q, rows, start)
-                .flatMapIterable(new Function<BaseApiResponse<AceResponse>, Iterable<ProductResponse>>() {
+                .map(new Function<BaseApiResponse<AceResponse>, List<Product>>() {
                     @Override
-                    public Iterable<ProductResponse> apply(BaseApiResponse<AceResponse> response) throws Exception {
-                        return response.data.products;
-                    }
-                })
-                .map(new Function<ProductResponse, Product>() {
-                    @Override
-                    public Product apply(ProductResponse productResponse) throws Exception {
-                        return productEntityDataMapper.transform(productResponse);
+                    public List<Product> apply(BaseApiResponse<AceResponse> response) throws Exception {
+                        return productEntityDataMapper.transform(response.data.products);
                     }
                 });
     }

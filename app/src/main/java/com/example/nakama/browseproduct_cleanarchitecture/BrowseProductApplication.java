@@ -20,7 +20,7 @@ public class BrowseProductApplication extends Application {
         component = DaggerAppComponent.builder().build();
     }
 
-    public static AppComponent getComponent() {
+    public AppComponent getComponent() {
         return component;
     }
 }

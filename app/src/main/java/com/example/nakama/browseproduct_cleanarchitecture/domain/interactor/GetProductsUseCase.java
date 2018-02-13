@@ -3,25 +3,30 @@ package com.example.nakama.browseproduct_cleanarchitecture.domain.interactor;
 import com.example.nakama.browseproduct_cleanarchitecture.domain.model.Product;
 import com.example.nakama.browseproduct_cleanarchitecture.domain.repository.AceRepository;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
+import io.reactivex.Scheduler;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by Nakama on 12/07/2017.
  */
 
-public class GetProductsUseCase extends UseCase<Product, GetProductsUseCase.Params> {
+public class GetProductsUseCase extends UseCase<List<Product>, GetProductsUseCase.Params> {
 
     private AceRepository aceRepository;
 
     @Inject
-    public GetProductsUseCase(AceRepository aceRepository) {
+    public GetProductsUseCase(AceRepository aceRepository, Scheduler subscribeScheduler, Scheduler observeScheduler) {
+        super(subscribeScheduler, observeScheduler);
         this.aceRepository = aceRepository;
     }
 
     @Override
-    Observable<Product> buildUseCaseObservable(Params params) {
+    Observable<List<Product>> buildUseCaseObservable(Params params) {
         return aceRepository.getProducts(params.device, params.source, params.q, params.rows, params.start);
     }
 

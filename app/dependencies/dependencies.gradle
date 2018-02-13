@@ -1,6 +1,6 @@
 ext {
     butterKnifeVersion = '8.7.0'
-    daggerVersion = '2.5'
+    daggerVersion = '2.13'
     retrofitVersion = '2.3.0'
 
     butterKnifeDependencies = [
