@@ -67,8 +67,6 @@ public class MainPresenterTest {
         when(aceRepository.getProducts("android", "test", "iphone x", 12, 1))
                 .thenReturn(Observable.just(products));
 
-        List<ProductModel> productModels = productModelDataMapper.transform(products);
-
         mainPresenter.getProducts("android", "test", "iphone x", 12, 1);
 
         testScheduler.triggerActions();
