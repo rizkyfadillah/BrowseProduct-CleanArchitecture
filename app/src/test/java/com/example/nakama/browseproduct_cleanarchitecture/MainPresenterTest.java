@@ -59,7 +59,7 @@ public class MainPresenterTest {
     }
 
     @Test
-    public void test() {
+    public void getProducts() {
         Product product = new Product("iphone x", "");
         List<Product> products = new ArrayList<>();
         products.add(product);
@@ -73,7 +73,7 @@ public class MainPresenterTest {
 
         testScheduler.triggerActions();
 
-        verify(mainView).showProducts(productModels);
+        verify(mainView).showProducts((List<ProductModel>) any());
     }
 
 }
