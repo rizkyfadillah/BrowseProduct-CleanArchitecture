@@ -19,7 +19,6 @@ public class GetProductsUseCase extends UseCase<List<Product>, GetProductsUseCas
 
     private AceRepository aceRepository;
 
-    @Inject
     public GetProductsUseCase(AceRepository aceRepository, Scheduler subscribeScheduler, Scheduler observeScheduler) {
         super(subscribeScheduler, observeScheduler);
         this.aceRepository = aceRepository;

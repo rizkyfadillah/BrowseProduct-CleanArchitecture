@@ -34,8 +34,8 @@ public class MainActivityModule {
 
     @Provides
     @ActivityScope
-    MainPresenter provideMainPresenter(GetProductsUseCase getProductsUseCase, ProductModelDataMapper productModelDataMapper) {
-        return new MainPresenterImpl(getProductsUseCase, productModelDataMapper);
+    ProductModelDataMapper provideProductModelDataMapper() {
+        return new ProductModelDataMapper();
     }
 
     @Provides
@@ -47,8 +47,8 @@ public class MainActivityModule {
 
     @Provides
     @ActivityScope
-    ProductModelDataMapper provideProductModelDataMapper() {
-        return new ProductModelDataMapper();
+    MainPresenter provideMainPresenter(GetProductsUseCase getProductsUseCase, ProductModelDataMapper productModelDataMapper) {
+        return new MainPresenterImpl(getProductsUseCase, productModelDataMapper);
     }
 
 }

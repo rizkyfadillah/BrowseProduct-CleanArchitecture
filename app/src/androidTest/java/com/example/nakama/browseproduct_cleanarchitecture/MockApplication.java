@@ -8,14 +8,9 @@ import com.example.nakama.browseproduct_cleanarchitecture.di.AppComponent;
 
 public class MockApplication extends BrowseProductApplication {
 
-    private AppComponent component;
-
-    public void setTestComponent(AppComponent component) {
-        this.component = component;
-    }
-
     @Override
-    public AppComponent getComponent() {
-        return component;
+    protected AppComponent createComponent() {
+        return DaggerMainActivityTest_TestComponent.builder().build();
     }
+
 }

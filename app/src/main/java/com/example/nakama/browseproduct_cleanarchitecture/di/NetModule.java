@@ -50,6 +50,12 @@ public class NetModule {
 
     @Provides
     @Singleton
+    ProductEntityDataMapper provideProductEntityDataMapper() {
+        return new ProductEntityDataMapper();
+    }
+
+    @Provides
+    @Singleton
     AceService provideAceService(Retrofit restAdapter) {
         return restAdapter.create(AceService.class);
     }
@@ -58,12 +64,6 @@ public class NetModule {
     @Singleton
     AceRepository provideAceRepository(AceService aceService, ProductEntityDataMapper productEntityDataMapper) {
         return new AceRepository(aceService, productEntityDataMapper);
-    }
-
-    @Provides
-    @Singleton
-    ProductEntityDataMapper provideProductEntityDataMapper() {
-        return new ProductEntityDataMapper();
     }
 
 }

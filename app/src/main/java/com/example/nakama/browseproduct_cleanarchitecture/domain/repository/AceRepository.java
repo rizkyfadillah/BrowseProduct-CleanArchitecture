@@ -23,7 +23,6 @@ public class AceRepository {
     private AceService aceService;
     private ProductEntityDataMapper productEntityDataMapper;
 
-    @Inject
     public AceRepository(AceService aceService, ProductEntityDataMapper productEntityDataMapper) {
         this.aceService = aceService;
         this.productEntityDataMapper = productEntityDataMapper;

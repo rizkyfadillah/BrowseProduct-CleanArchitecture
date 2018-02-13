@@ -22,7 +22,9 @@ import org.junit.runner.RunWith;
 import java.util.ArrayList;
 import java.util.List;
 
-import dagger.BindsInstance;
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import dagger.Component;
 import io.reactivex.Observable;
 
@@ -31,7 +33,6 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 /**
@@ -41,17 +42,14 @@ import static org.mockito.Mockito.when;
 @RunWith(AndroidJUnit4.class)
 public class MainActivityTest {
 
+    @Inject
     AceRepository aceRepository;
 
-    @Component
+    @Singleton
+    @Component(modules = { MockNetModule.class })
     public interface TestComponent extends AppComponent {
 
-        @Component.Builder
-        interface Builder {
-            TestComponent build();
-
-            @BindsInstance Builder aceRepository(AceRepository aceRepository);
-        }
+        void inject(MainActivityTest mainActivityTest);
 
     }
 
@@ -64,22 +62,15 @@ public class MainActivityTest {
     @Before
     public void setup() {
         Instrumentation instrumentation = InstrumentationRegistry.getInstrumentation();
-        MockApplication app
-                = (MockApplication) instrumentation.getTargetContext().getApplicationContext();
+        MockApplication app = (MockApplication) instrumentation.getTargetContext().getApplicationContext();
 
-        aceRepository = mock(AceRepository.class);
+        TestComponent testComponent = (TestComponent) app.getComponent();
 
-        TestComponent testComponent = DaggerMainActivityTest_TestComponent.builder()
-                .aceRepository(aceRepository)
-                .build();
-
-        app.setTestComponent(testComponent);
+        testComponent.inject(this);
     }
 
     @Test
     public void searchProducts_showResults() {
-        activityRule.launchActivity(new Intent());
-
         String productName = "iphone x";
         Product product = new Product(productName, "image url");
         List<Product> products = new ArrayList<>();
@@ -88,6 +79,8 @@ public class MainActivityTest {
 
         when(aceRepository.getProducts("android", "test", productName, 12, 1))
                 .thenReturn(productObservable);
+
+        activityRule.launchActivity(new Intent());
 
         onView(withId(R.id.et_search)).perform(ViewActions.typeText(productName));
         onView(withId(R.id.et_search)).perform(ViewActions.pressImeActionButton());

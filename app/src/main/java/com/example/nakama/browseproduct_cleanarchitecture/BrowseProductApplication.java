@@ -11,13 +11,17 @@ import com.example.nakama.browseproduct_cleanarchitecture.di.DaggerAppComponent;
 
 public class BrowseProductApplication extends Application {
 
-    private static AppComponent component;
+    private AppComponent component;
 
     @Override
     public void onCreate() {
         super.onCreate();
 
-        component = DaggerAppComponent.builder().build();
+        component = createComponent();
+    }
+
+    protected AppComponent createComponent() {
+        return DaggerAppComponent.builder().build();
     }
 
     public AppComponent getComponent() {

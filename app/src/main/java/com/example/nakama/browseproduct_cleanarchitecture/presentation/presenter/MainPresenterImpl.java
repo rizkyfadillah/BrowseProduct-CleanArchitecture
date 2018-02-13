@@ -24,8 +24,6 @@ import io.reactivex.observers.DisposableObserver;
 
 public class MainPresenterImpl implements MainPresenter {
 
-    private static final String TAG = MainPresenterImpl.class.getSimpleName();
-
     private GetProductsUseCase getProductsUseCase;
 
     private MainView mainView;
