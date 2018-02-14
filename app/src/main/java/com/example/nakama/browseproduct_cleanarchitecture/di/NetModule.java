@@ -48,22 +48,4 @@ public class NetModule {
                 .build();
     }
 
-    @Provides
-    @Singleton
-    AceService provideAceService(Retrofit restAdapter) {
-        return restAdapter.create(AceService.class);
-    }
-
-    @Provides
-    @Singleton
-    AceRepository provideAceRepository(AceService aceService, ProductEntityDataMapper productEntityDataMapper) {
-        return new AceRepository(aceService, productEntityDataMapper);
-    }
-
-    @Provides
-    @Singleton
-    ProductEntityDataMapper provideProductEntityDataMapper() {
-        return new ProductEntityDataMapper();
-    }
-
 }

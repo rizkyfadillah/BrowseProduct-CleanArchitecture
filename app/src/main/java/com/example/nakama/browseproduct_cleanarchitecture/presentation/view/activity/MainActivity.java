@@ -28,7 +28,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity
-    implements MainView {
+        implements MainView {
 
     @BindView(R.id.et_search) EditText etSearch;
     @BindView(R.id.recyclerview) RecyclerView recyclerView;
@@ -68,8 +68,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void injectDependencies() {
-        ((BrowseProductApplication) getApplication()).getComponent()
-                .plus(new MainActivityModule())
+        ((BrowseProductApplication) getApplication())
+                .getMainActivityComponent()
                 .inject(this);
     }
 

@@ -8,9 +8,13 @@ import android.support.test.espresso.action.ViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.example.nakama.browseproduct_cleanarchitecture.di.AppComponent;
+import com.example.nakama.browseproduct_cleanarchitecture.di.MainActivityComponent;
+import com.example.nakama.browseproduct_cleanarchitecture.domain.interactor.GetProductsUseCase;
 import com.example.nakama.browseproduct_cleanarchitecture.domain.model.Product;
 import com.example.nakama.browseproduct_cleanarchitecture.domain.repository.AceRepository;
+import com.example.nakama.browseproduct_cleanarchitecture.presentation.mapper.ProductModelDataMapper;
+import com.example.nakama.browseproduct_cleanarchitecture.presentation.presenter.MainPresenter;
+import com.example.nakama.browseproduct_cleanarchitecture.presentation.presenter.MainPresenterImpl;
 import com.example.nakama.browseproduct_cleanarchitecture.presentation.view.activity.MainActivity;
 import com.example.nakama.browseproduct_cleanarchitecture.util.RecyclerViewMatcher;
 
@@ -25,6 +29,8 @@ import java.util.List;
 import dagger.BindsInstance;
 import dagger.Component;
 import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -44,13 +50,13 @@ public class MainActivityTest {
     AceRepository aceRepository;
 
     @Component
-    public interface TestComponent extends AppComponent {
+    public interface MainActivityTestComponent extends MainActivityComponent {
 
         @Component.Builder
         interface Builder {
-            TestComponent build();
+            MainActivityTestComponent build();
 
-            @BindsInstance Builder aceRepository(AceRepository aceRepository);
+            @BindsInstance Builder mainPresenter(MainPresenter mainPresenter);
         }
 
     }
@@ -69,11 +75,17 @@ public class MainActivityTest {
 
         aceRepository = mock(AceRepository.class);
 
-        TestComponent testComponent = DaggerMainActivityTest_TestComponent.builder()
-                .aceRepository(aceRepository)
-                .build();
+        GetProductsUseCase getProductsUseCase = new GetProductsUseCase(aceRepository, Schedulers.io(),
+                AndroidSchedulers.mainThread());
 
-        app.setTestComponent(testComponent);
+        MainPresenter mainPresenter = new MainPresenterImpl(getProductsUseCase, new ProductModelDataMapper());
+
+        MainActivityTestComponent mainActivityTestComponent =
+                DaggerMainActivityTest_MainActivityTestComponent.builder()
+                        .mainPresenter(mainPresenter)
+                        .build();
+
+        app.setMainActivityComponent(mainActivityTestComponent);
     }
 
     @Test
