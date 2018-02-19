@@ -1,5 +1,7 @@
 package com.example.nakama.browseproduct_cleanarchitecture.domain.interactor;
 
+import com.example.nakama.browseproduct_cleanarchitecture.di.ObserveScheduler;
+import com.example.nakama.browseproduct_cleanarchitecture.di.SubscribeScheduler;
 import com.example.nakama.browseproduct_cleanarchitecture.domain.model.Product;
 import com.example.nakama.browseproduct_cleanarchitecture.domain.repository.AceRepository;
 
@@ -20,7 +22,7 @@ public class GetProductsUseCase extends UseCase<List<Product>, GetProductsUseCas
     private AceRepository aceRepository;
 
     @Inject
-    public GetProductsUseCase(AceRepository aceRepository, Scheduler subscribeScheduler, Scheduler observeScheduler) {
+    public GetProductsUseCase(AceRepository aceRepository, @SubscribeScheduler Scheduler subscribeScheduler, @ObserveScheduler Scheduler observeScheduler) {
         super(subscribeScheduler, observeScheduler);
         this.aceRepository = aceRepository;
     }

@@ -52,21 +52,8 @@ public class MainActivityModule {
 
     @Provides
     @ActivityScope
-    AceRepository provideAceRepository(AceService aceService, ProductEntityDataMapper productEntityDataMapper) {
-        return new AceRepository(aceService, productEntityDataMapper);
-    }
-
-    @Provides
-    @ActivityScope
     ProductEntityDataMapper provideProductEntityDataMapper() {
         return new ProductEntityDataMapper();
-    }
-
-    @Provides
-    @ActivityScope
-    GetProductsUseCase provideGetAce(AceRepository aceRepository, @SubscribeScheduler Scheduler subscribeScheduler,
-                                     @ObserveScheduler Scheduler observeScheduler) {
-        return new GetProductsUseCase(aceRepository, subscribeScheduler, observeScheduler);
     }
 
     @Provides
